@@ -23,13 +23,13 @@
 			testState.set(TestStates.Ended);
 		}}
 	></Timer>
-	<slot></slot>
+	<slot name="test"></slot>
 {:else}
 	<div id="finish-div">
 		<p id="finish-instructions">
 			Thank you! Your results have been saved. Please continue to the next test.
 		</p>
-		<a href="b" id="next-button">Next</a>
+		<slot name="next-button"></slot>
 	</div>
 {/if}
 
@@ -52,8 +52,7 @@
 		font-size: 1.5rem;
 	}
 
-	#start-button,
-	#next-button {
+	#start-button {
 		border-radius: 10px;
 		border: none;
 

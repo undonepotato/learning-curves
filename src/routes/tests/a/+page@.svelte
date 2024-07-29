@@ -1,6 +1,8 @@
 <script lang="ts">
 	// bad code, whatever
+	// https://github.com/sveltejs/kit/issues/627#issuecomment-1476107937
 
+	import Layout from '../+layout.svelte';
 	import { TestStates, testState } from '../test-state';
 	import { onDestroy, tick } from 'svelte';
 
@@ -128,19 +130,27 @@
 	}
 </script>
 
-<p id="test-instructions">
-	Tap on the circles as they appear. Be as fast as possible. Do not miss any targets.
-</p>
+<Layout>
+	<div slot="test">
+		<p id="test-instructions">
+			Tap on the circles as they appear. Be as fast as possible. Do not miss any targets.
+		</p>
 
-<p id="clicks-failed">Clicks failed: {failedClicks}</p>
+		<p id="clicks-failed">Clicks failed: {failedClicks}</p>
 
-<div id="test-div-container">
-	<div id="test-div">
-		<canvas id="main-canvas" bind:this={mainCanvas} on:click={handleClick}
-			>Your browser doesn't support this feature.</canvas
-		>
+		<div id="test-div-container">
+			<div id="test-div">
+				<canvas id="main-canvas" bind:this={mainCanvas} on:click={handleClick}
+					>Your browser doesn't support this feature.</canvas
+				>
+			</div>
+		</div>
 	</div>
-</div>
+
+	<div slot="next-button">
+		<a href="b" id="next-button">Next</a>
+	</div>
+</Layout>
 
 <style>
 	#test-instructions {
@@ -170,5 +180,20 @@
 		block-size: 100%;
 		border: 3px solid var(--secondary);
 		border-radius: 20px;
+	}
+
+	#next-button {
+		border-radius: 10px;
+		border: none;
+
+		padding: 1.5rem 3rem;
+
+		font-size: 1.5rem;
+		font-family: 'Inter', Arial, Helvetica, sans-serif;
+		color: var(--background);
+		background: var(--primary);
+		text-decoration: none;
+
+		cursor: pointer;
 	}
 </style>
