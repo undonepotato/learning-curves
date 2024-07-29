@@ -4,6 +4,7 @@
 </script>
 
 {#if $testState == TestStates.NotStarted}
+	<slot name="pre-start"></slot>
 	<div id="pre-start-div">
 		<p id="pre-instructions">
 			Follow the instructions given when you click Start. You will have 30 seconds. Your accuracy
@@ -18,24 +19,18 @@
 	</div>
 {:else if $testState == TestStates.Running}
 	<Timer
-		time={30}
+		time={2}
 		on:time-ended={() => {
 			testState.set(TestStates.Ended);
 		}}
 	></Timer>
 	<slot name="test"></slot>
 {:else}
-	<div id="finish-div">
-		<p id="finish-instructions">
-			Thank you! Your results have been saved. Please continue to the next test.
-		</p>
-		<slot name="next-button"></slot>
-	</div>
+	<slot name="finish"></slot>
 {/if}
 
 <style>
-	#pre-start-div,
-	#finish-div {
+	#pre-start-div {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -46,8 +41,7 @@
 
 		block-size: calc(100vh - 5rem);
 	}
-	#pre-instructions,
-	#finish-instructions {
+	#pre-instructions {
 		text-align: center;
 		font-size: 1.5rem;
 	}

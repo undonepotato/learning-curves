@@ -134,6 +134,10 @@
 </script>
 
 <Layout>
+	<div slot="pre-start">
+		<header id="pre-start-header"><h1 id="pre-start-heading">Test A</h1></header>
+	</div>
+
 	<div slot="test">
 		<p id="test-instructions">
 			Tap on the circles as they appear. Be as fast as possible. Do not miss any targets.
@@ -150,15 +154,45 @@
 		</div>
 	</div>
 
-	<div slot="next-button">
-		<a href="b" id="next-button">Next</a>
+	<div slot="finish">
+		<div id="finish-div">
+			<p id="finish-instructions">
+				Thank you! Your results have been saved. Please continue to test B.
+			</p>
+			<a href="b" id="next-button">Next</a>
+		</div>
 	</div>
 </Layout>
 
 <style>
-	#test-instructions {
+	#pre-start-header {
+		display: flex;
+		inline-size: 100%;
+
+		justify-content: center;
+	}
+	#pre-start-heading {
+		position: absolute;
+		text-align: center;
+		margin-block-start: 0;
+	}
+
+	#test-instructions,
+	#finish-instructions {
 		text-align: center;
 		font-size: 1.5rem;
+	}
+
+	#finish-div {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 2rem;
+
+		margin: 2rem;
+
+		block-size: calc(100vh - 5rem);
 	}
 
 	#clicks-failed {
