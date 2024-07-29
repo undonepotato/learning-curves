@@ -47,6 +47,7 @@
 				};
 
 				historicalClicks.set(performance.now(), null);
+
 				draw(targetRangeWidth, targetRangeHeight);
 			}
 		} else if (value == TestStates.Ended) {
@@ -56,6 +57,8 @@
 	});
 
 	onDestroy(unsubscribe);
+
+	testState.set(TestStates.NotStarted);
 
 	function degToRad(deg: number): number {
 		return (deg * Math.PI) / 100;
@@ -180,6 +183,8 @@
 		block-size: 100%;
 		border: 3px solid var(--secondary);
 		border-radius: 20px;
+
+		touch-action: manipulation;
 	}
 
 	#next-button {

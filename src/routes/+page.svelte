@@ -3,9 +3,9 @@
 </div>
 
 <div id="tests-div">
-	<a href="tests/a" class="test-button" id="test-button-a">Test A</a>
-	<a href="tests/b" class="test-button" id="test-button-b">Test B</a>
-	<a href="tests/c" class="test-button" id="test-button-c">Test C</a>
+	<a href="tests/a" class="test-button button-like" id="test-button-a">Test A</a>
+	<a href="tests/b" class="test-button button-like" id="test-button-b">Test B</a>
+	<a href="tests/c" class="test-button button-like" id="test-button-c">Test C</a>
 </div>
 
 <style>
