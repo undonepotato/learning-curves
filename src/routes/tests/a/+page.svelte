@@ -1,17 +1,21 @@
 <script lang="ts">
-	import TimerDisplay from '../timer-display.svelte';
-	import { afterUpdate, tick } from 'svelte';
+	// bad code, whatever
+
+	import Timer from '../timer.svelte';
+	import { afterUpdate } from 'svelte';
 
 	let successfulClicks = 0;
 	let failedClicks = 0;
+	let historicalClicks: Map<number, boolean | null> = new Map(); // timestamp, whether click was successful
 
+	let requestID: number;
 	let mainCanvas: HTMLCanvasElement;
 	let ctx: CanvasRenderingContext2D;
 	let target: Target;
 	let click: Coordinate | null;
 
 	let started = false;
-	let ended = false; // not very good design yeah yeah yeah
+	let ended = false;
 
 	type Coordinate = {
 		x: number;
@@ -24,7 +28,7 @@
 	};
 
 	afterUpdate(() => {
-		if (started && !ended)
+		if (started && !ended) {
 			if (mainCanvas) {
 				ctx = mainCanvas.getContext('2d') as CanvasRenderingContext2D;
 
@@ -42,24 +46,21 @@
 					max: mainCanvas.clientHeight - 40
 				};
 
+				historicalClicks.set(performance.now(), null);
 				draw(targetRangeWidth, targetRangeHeight);
 			}
+		} else if (started && ended) {
+			cancelAnimationFrame(requestID);
+			localStorage.setItem('test-a-results', JSON.stringify(Object.fromEntries(historicalClicks)));
+		}
 	});
 
-	class Target {
-		position: Coordinate;
-		redraw: boolean;
-		constructor(ctx: CanvasRenderingContext2D, position: Coordinate) {
-			this.position = position;
-			this.redraw = false;
-		}
+	function degToRad(deg: number): number {
+		return (deg * Math.PI) / 100;
+	}
 
-		draw(ctx: CanvasRenderingContext2D) {
-			ctx.fillStyle = '#485bcd';
-			ctx.beginPath();
-			ctx.arc(this.position.x, this.position.y, 30, degToRad(0), degToRad(360));
-			ctx.fill();
-		}
+	function randomIntRange(range: Range) {
+		return Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
 	}
 
 	function handleClick(event: MouseEvent) {
@@ -77,17 +78,25 @@
 		return distance <= radius;
 	}
 
-	function degToRad(deg: number): number {
-		return (deg * Math.PI) / 100;
-	}
-
-	function randomIntRange(range: Range) {
-		return Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
-	}
-
 	function drawBackground(ctx: CanvasRenderingContext2D, width: number, height: number) {
 		ctx.fillStyle = '#f0f1fb';
 		ctx.fillRect(0, 0, width, height);
+	}
+
+	class Target {
+		position: Coordinate;
+		redraw: boolean;
+		constructor(position: Coordinate) {
+			this.position = position;
+			this.redraw = false;
+		}
+
+		draw(ctx: CanvasRenderingContext2D) {
+			ctx.fillStyle = '#485bcd';
+			ctx.beginPath();
+			ctx.arc(this.position.x, this.position.y, 30, degToRad(0), degToRad(360));
+			ctx.fill();
+		}
 	}
 
 	function draw(targetRangeWidth: Range, targetRangeHeight: Range) {
@@ -98,20 +107,22 @@
 				if (detectTarget(click, target.position, 30)) {
 					target.redraw = true;
 					successfulClicks++;
+					historicalClicks.set(performance.now(), true);
 				} else {
 					failedClicks++;
+					historicalClicks.set(performance.now(), false);
 				}
 				click = null;
 			}
 		}
 		if (!target || target.redraw) {
-			target = new Target(ctx, {
+			target = new Target({
 				x: randomIntRange(targetRangeWidth),
 				y: randomIntRange(targetRangeHeight)
 			});
 		}
 		target.draw(ctx);
-		requestAnimationFrame(() => {
+		requestID = requestAnimationFrame(() => {
 			draw(targetRangeWidth, targetRangeHeight);
 		});
 	}
@@ -131,12 +142,13 @@
 		>
 	</div>
 {:else if started && !ended}
-	<TimerDisplay
+	<Timer
 		{started}
+		time={30}
 		on:time-ended={() => {
-			//ended = true;
+			ended = true;
 		}}
-	></TimerDisplay>
+	></Timer>
 	<p id="test-instructions">
 		Tap on the circles as they appear. Be as fast as possible. Do not miss any targets.
 	</p>
@@ -150,10 +162,18 @@
 			>
 		</div>
 	</div>
-{:else}{/if}
+{:else}
+	<div id="finish-div">
+		<p id="finish-instructions">
+			Thank you! Your results have been saved. Please continue to the next test.
+		</p>
+		<a href="b" id="next-button">Next</a>
+	</div>
+{/if}
 
 <style>
-	#pre-start-div {
+	#pre-start-div,
+	#finish-div {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -164,12 +184,14 @@
 
 		block-size: calc(100vh - 5rem);
 	}
-	#pre-instructions {
+	#pre-instructions,
+	#finish-instructions {
 		text-align: center;
 		font-size: 1.5rem;
 	}
 
-	#start-button {
+	#start-button,
+	#next-button {
 		border-radius: 10px;
 		border: none;
 
@@ -179,6 +201,7 @@
 		font-family: 'Inter', Arial, Helvetica, sans-serif;
 		color: var(--background);
 		background: var(--primary);
+		text-decoration: none;
 
 		cursor: pointer;
 	}

@@ -4,8 +4,8 @@
 	const dispatcher = createEventDispatcher();
 
 	export let started: boolean;
+	export let time: number;
 
-	let time = 30;
 	if (started) {
 		let timer = setInterval(() => {
 			time--;
@@ -14,7 +14,7 @@
 		setTimeout(() => {
 			clearInterval(timer);
 			dispatcher('time-ended');
-		}, 30000);
+		}, time * 1000);
 	}
 </script>
 
