@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Timer from '../timer.svelte';
-	import { TestStates, testState } from '../test-state';
+	import Timer from './timer.svelte';
+	import { TestStates, testState } from './test-state';
 </script>
 
 {#if $testState == TestStates.NotStarted}
@@ -17,9 +17,13 @@
 		>
 	</div>
 {:else if $testState == TestStates.Running}
-	<p id="test-instructions">
-		Tap on the circles as they appear. Be as fast as possible. Do not miss any targets.
-	</p>
+	<Timer
+		time={30}
+		on:time-ended={() => {
+			testState.set(TestStates.Ended);
+		}}
+	></Timer>
+	<slot></slot>
 {:else}
 	<div id="finish-div">
 		<p id="finish-instructions">
@@ -30,25 +34,37 @@
 {/if}
 
 <style>
+	#pre-start-div,
+	#finish-div {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 2rem;
+
+		margin: 2rem;
+
+		block-size: calc(100vh - 5rem);
+	}
 	#pre-instructions,
 	#finish-instructions {
 		text-align: center;
 		font-size: 1.5rem;
 	}
 
-	#test-instructions {
-		text-align: center;
-		font-size: 1.5rem;
-	}
+	#start-button,
+	#next-button {
+		border-radius: 10px;
+		border: none;
 
-	#test-div-container {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin: 2rem 1rem;
-	}
-	#test-div {
-		flex: 1;
-		block-size: 60vh;
+		padding: 1.5rem 3rem;
+
+		font-size: 1.5rem;
+		font-family: 'Inter', Arial, Helvetica, sans-serif;
+		color: var(--background);
+		background: var(--primary);
+		text-decoration: none;
+
+		cursor: pointer;
 	}
 </style>

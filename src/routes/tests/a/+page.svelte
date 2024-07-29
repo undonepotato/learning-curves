@@ -1,8 +1,8 @@
 <script lang="ts">
 	// bad code, whatever
 
-	import Timer from '../timer.svelte';
-	import { afterUpdate } from 'svelte';
+	import { TestStates, testState } from '../test-state';
+	import { onDestroy, tick } from 'svelte';
 
 	let successfulClicks = 0;
 	let failedClicks = 0;
@@ -14,9 +14,6 @@
 	let target: Target;
 	let click: Coordinate | null;
 
-	let started = false;
-	let ended = false;
-
 	type Coordinate = {
 		x: number;
 		y: number;
@@ -27,8 +24,9 @@
 		max: number;
 	};
 
-	afterUpdate(() => {
-		if (started && !ended) {
+	const unsubscribe = testState.subscribe(async (value) => {
+		if (value == TestStates.Running) {
+			await tick(); // make sure mainCanvas
 			if (mainCanvas) {
 				ctx = mainCanvas.getContext('2d') as CanvasRenderingContext2D;
 
@@ -49,11 +47,13 @@
 				historicalClicks.set(performance.now(), null);
 				draw(targetRangeWidth, targetRangeHeight);
 			}
-		} else if (started && ended) {
+		} else if (value == TestStates.Ended) {
 			cancelAnimationFrame(requestID);
 			localStorage.setItem('test-a-results', JSON.stringify(Object.fromEntries(historicalClicks)));
 		}
 	});
+
+	onDestroy(unsubscribe);
 
 	function degToRad(deg: number): number {
 		return (deg * Math.PI) / 100;
@@ -128,84 +128,21 @@
 	}
 </script>
 
-{#if !started && !ended}
-	<div id="pre-start-div">
-		<p id="pre-instructions">
-			Follow the instructions given when you click Start. You will have 30 seconds. Your accuracy
-			and speed while completing the task will be measured. Be as fast and as accurate as possible.
-		</p>
-		<button
-			id="start-button"
-			on:click={(e) => {
-				started = true;
-			}}>Start</button
+<p id="test-instructions">
+	Tap on the circles as they appear. Be as fast as possible. Do not miss any targets.
+</p>
+
+<p id="clicks-failed">Clicks failed: {failedClicks}</p>
+
+<div id="test-div-container">
+	<div id="test-div">
+		<canvas id="main-canvas" bind:this={mainCanvas} on:click={handleClick}
+			>Your browser doesn't support this feature.</canvas
 		>
 	</div>
-{:else if started && !ended}
-	<Timer
-		{started}
-		time={30}
-		on:time-ended={() => {
-			ended = true;
-		}}
-	></Timer>
-	<p id="test-instructions">
-		Tap on the circles as they appear. Be as fast as possible. Do not miss any targets.
-	</p>
-
-	<p id="clicks-failed">Clicks failed: {failedClicks}</p>
-
-	<div id="test-div-container">
-		<div id="test-div">
-			<canvas id="main-canvas" bind:this={mainCanvas} on:click={handleClick}
-				>Your browser doesn't support this feature.</canvas
-			>
-		</div>
-	</div>
-{:else}
-	<div id="finish-div">
-		<p id="finish-instructions">
-			Thank you! Your results have been saved. Please continue to the next test.
-		</p>
-		<a href="b" id="next-button">Next</a>
-	</div>
-{/if}
+</div>
 
 <style>
-	#pre-start-div,
-	#finish-div {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		gap: 2rem;
-
-		margin: 2rem;
-
-		block-size: calc(100vh - 5rem);
-	}
-	#pre-instructions,
-	#finish-instructions {
-		text-align: center;
-		font-size: 1.5rem;
-	}
-
-	#start-button,
-	#next-button {
-		border-radius: 10px;
-		border: none;
-
-		padding: 1.5rem 3rem;
-
-		font-size: 1.5rem;
-		font-family: 'Inter', Arial, Helvetica, sans-serif;
-		color: var(--background);
-		background: var(--primary);
-		text-decoration: none;
-
-		cursor: pointer;
-	}
-
 	#test-instructions {
 		text-align: center;
 		font-size: 1.5rem;

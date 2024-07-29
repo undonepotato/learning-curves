@@ -3,19 +3,16 @@
 
 	const dispatcher = createEventDispatcher();
 
-	export let started: boolean;
 	export let time: number;
 
-	if (started) {
-		let timer = setInterval(() => {
-			time--;
-		}, 1000);
+	let timer = setInterval(() => {
+		time--;
+	}, 1000);
 
-		setTimeout(() => {
-			clearInterval(timer);
-			dispatcher('time-ended');
-		}, time * 1000);
-	}
+	setTimeout(() => {
+		clearInterval(timer);
+		dispatcher('time-ended');
+	}, time * 1000);
 </script>
 
 <svelte:head>
