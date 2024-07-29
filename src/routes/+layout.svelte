@@ -22,7 +22,9 @@
 		--secondary: #e399ce;
 		--accent: #d56483;
 		font-family: 'Inter', Arial, Helvetica, sans-serif;
+		font-size: 18px;
 		color: var(--text);
+		background: var(--background);
 	}
 
 	h1,
