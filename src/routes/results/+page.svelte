@@ -2,8 +2,6 @@
 	let valid = true;
 	let results: Map<string, string | null> = new Map();
 
-	let dataParagraph: HTMLParagraphElement;
-
 	let rawDataStr = '';
 	let downloadDataStr = '';
 
@@ -53,7 +51,7 @@
 					}}>Copy</button
 				>
 			</div>
-			<p id="results-text" bind:this={dataParagraph}>{rawDataStr}</p>
+			<p id="results-text">{rawDataStr}</p>
 		</div>
 	</div>
 {:else}
@@ -179,5 +177,10 @@
 	#test-button-c {
 		background: var(--accent);
 		color: var(--text);
+	}
+
+	#home-button-div {
+		display: flex;
+		justify-content: right;
 	}
 </style>
