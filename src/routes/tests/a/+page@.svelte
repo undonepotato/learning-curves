@@ -5,6 +5,7 @@
 	import Layout from '../+layout.svelte';
 	import { TestStates, testState } from '../test-state';
 	import { onDestroy, tick } from 'svelte';
+	import Timer from '../timer.svelte';
 
 	let successfulClicks = 0;
 	let failedClicks = 0;
@@ -139,6 +140,12 @@
 	</div>
 
 	<div slot="test">
+		<Timer
+			time={30}
+			on:time-ended={() => {
+				testState.set(TestStates.Ended);
+			}}
+		></Timer>
 		<p id="test-instructions">
 			Tap on the circles as they appear. Be as fast as possible. Do not miss any targets.
 		</p>

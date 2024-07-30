@@ -1,7 +1,10 @@
 <script lang="ts">
+	// https://github.com/sveltejs/kit/issues/627#issuecomment-1476107937
+
 	import Layout from '../+layout.svelte';
 	import { TestStates, testState } from '../test-state';
 	import { onDestroy } from 'svelte';
+	import Timer from '../timer.svelte';
 
 	const randomClickTarget: Range = { min: 2, max: 9 };
 
@@ -42,9 +45,15 @@
 	</div>
 
 	<div slot="test">
+		<Timer
+			time={30}
+			on:time-ended={() => {
+				testState.set(TestStates.Ended);
+			}}
+		></Timer>
 		<p id="test-instructions">
 			Click the button the specified number of times (exactly) as fast as possible and then click
-			Enter.
+			Enter. Do not mis-enter any numbers.
 		</p>
 		<p id="entries-failed">Entries failed: {failedEntries}</p>
 		<div id="test-div-container">

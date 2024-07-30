@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Timer from './timer.svelte';
 	import { TestStates, testState } from './test-state';
 </script>
 
@@ -7,8 +6,9 @@
 	<slot name="pre-start"></slot>
 	<div id="pre-start-div">
 		<p id="pre-instructions">
-			Follow the instructions given when you click Start. You will have 30 seconds. Your accuracy
-			and speed while completing the task will be measured. Be as fast and as accurate as possible.
+			Follow the instructions given when you click Start. You will have 30 seconds for tests A and
+			B, and 60 for test C. Your accuracy and speed while completing the task will be measured. Be
+			as fast and as accurate as possible.
 		</p>
 		<button
 			id="start-button"
@@ -18,12 +18,6 @@
 		>
 	</div>
 {:else if $testState == TestStates.Running}
-	<Timer
-		time={2}
-		on:time-ended={() => {
-			testState.set(TestStates.Ended);
-		}}
-	></Timer>
 	<slot name="test"></slot>
 {:else}
 	<slot name="finish"></slot>
