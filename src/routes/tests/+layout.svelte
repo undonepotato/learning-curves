@@ -6,9 +6,8 @@
 	<slot name="pre-start"></slot>
 	<div id="pre-start-div">
 		<p id="pre-instructions">
-			Follow the instructions given when you click Start. You will have 30 seconds for tests A and
-			B, and 60 for test C. Your accuracy and speed while completing the task will be measured. Be
-			as fast and as accurate as possible.
+			Follow the instructions given when you click Start. Your accuracy and speed while completing
+			the task will be measured. Be as fast and as accurate as possible.
 		</p>
 		<button
 			id="start-button"
@@ -20,6 +19,7 @@
 {:else if $testState == TestStates.Running}
 	<slot name="test"></slot>
 {:else}
+	<a href="/" id="home-button">Home</a>
 	<slot name="finish"></slot>
 {/if}
 
@@ -53,5 +53,25 @@
 		text-decoration: none;
 
 		cursor: pointer;
+	}
+
+	#home-button {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+
+		background: var(--secondary);
+		color: var(--text);
+
+		border-radius: 5px;
+		border: none;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		font-size: 0.75rem;
+		padding: 0.5rem;
+		text-decoration: none;
 	}
 </style>

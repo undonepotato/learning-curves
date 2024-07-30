@@ -136,12 +136,12 @@
 
 <Layout>
 	<div slot="pre-start">
-		<header id="pre-start-header"><h1 id="pre-start-heading">Test A</h1></header>
+		<header id="pre-start-header"><h1 id="pre-start-heading">Test A (15s)</h1></header>
 	</div>
 
 	<div slot="test">
 		<Timer
-			time={30}
+			time={15}
 			on:time-ended={() => {
 				testState.set(TestStates.Ended);
 			}}

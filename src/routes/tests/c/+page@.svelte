@@ -103,7 +103,7 @@
 
 <Layout>
 	<div slot="pre-start">
-		<header id="pre-start-header"><h1 id="pre-start-heading">Test C</h1></header>
+		<header id="pre-start-header"><h1 id="pre-start-heading">Test C (60s)</h1></header>
 	</div>
 
 	<div slot="test">

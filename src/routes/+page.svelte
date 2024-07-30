@@ -1,3 +1,4 @@
+<a href="results" id="results-button">Results</a>
 <div id="title-div">
 	<h1 id="title-heading">Learning Curve Experiment</h1>
 </div>
@@ -11,6 +12,26 @@
 <style>
 	:root {
 		overflow: hidden;
+	}
+
+	#results-button {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+
+		background: var(--secondary);
+		color: var(--text);
+
+		border-radius: 5px;
+		border: none;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		font-size: 0.75rem;
+		padding: 0.5rem;
+		text-decoration: none;
 	}
 
 	#title-div {
