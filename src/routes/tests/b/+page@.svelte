@@ -158,10 +158,12 @@
 	}
 	#test-div {
 		flex: 1;
-		block-size: 60vh;
+		block-size: 50vh;
 
 		display: flex;
 		flex-direction: column;
+
+		touch-action: manipulation;
 	}
 
 	#test-button {
@@ -176,7 +178,6 @@
 		border-radius: 20px;
 
 		cursor: pointer;
-		touch-action: manipulation;
 	}
 
 	#test-button:hover {

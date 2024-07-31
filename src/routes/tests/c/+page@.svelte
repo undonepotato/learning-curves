@@ -246,6 +246,8 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+
+		touch-action: manipulation;
 	}
 	#boxes-grid {
 		flex: 1;

@@ -217,7 +217,9 @@
 	}
 	#test-div {
 		flex: 1;
-		block-size: 60vh;
+		block-size: 50vh;
+
+		touch-action: manipulation;
 	}
 
 	#main-canvas {
@@ -225,8 +227,6 @@
 		block-size: 100%;
 		border: 3px solid var(--secondary);
 		border-radius: 20px;
-
-		touch-action: manipulation;
 	}
 
 	#next-button {
