@@ -10,10 +10,6 @@
 </div>
 
 <style>
-	:root {
-		overflow: hidden;
-	}
-
 	#results-button {
 		position: absolute;
 		top: 0.5rem;
