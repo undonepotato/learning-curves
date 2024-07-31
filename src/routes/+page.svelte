@@ -38,7 +38,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		block-size: calc(100vh - 5rem);
+		block-size: calc(100vh - 10rem);
 	}
 
 	#title-heading {
