@@ -6,6 +6,7 @@
 	import { TestStates, testState } from '../test-state';
 	import { onDestroy, tick } from 'svelte';
 	import Timer from '../timer.svelte';
+	import { scale } from 'svelte/transition';
 
 	let successfulClicks = 0;
 	let failedClicks = 0;
@@ -33,9 +34,10 @@
 			if (mainCanvas) {
 				ctx = mainCanvas.getContext('2d') as CanvasRenderingContext2D;
 
-				mainCanvas.width = mainCanvas.clientWidth * window.devicePixelRatio;
-				mainCanvas.height = mainCanvas.clientHeight * window.devicePixelRatio;
-				ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+				scaleCanvas(mainCanvas, ctx);
+				window.addEventListener('resize', () => {
+					scaleCanvas(mainCanvas, ctx);
+				});
 
 				const targetRangeWidth: Range = {
 					min: 40,
@@ -88,6 +90,12 @@
 	function drawBackground(ctx: CanvasRenderingContext2D, width: number, height: number) {
 		ctx.fillStyle = '#f0f1fb';
 		ctx.fillRect(0, 0, width, height);
+	}
+
+	function scaleCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+		canvas.width = canvas.clientWidth * window.devicePixelRatio;
+		canvas.height = canvas.clientHeight * window.devicePixelRatio;
+		ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 	}
 
 	class Target {
