@@ -46,12 +46,6 @@
 	</div>
 
 	<div slot="test">
-		<Timer
-			time={30}
-			on:time-ended={() => {
-				testState.set(TestStates.Ended);
-			}}
-		></Timer>
 		<p id="test-instructions">
 			Click the button the specified number of times (exactly) as fast as possible and then click
 			Enter. Do not mis-enter any numbers.
@@ -65,6 +59,14 @@
 						currentClicked++;
 					}}>{currentTarget}</button
 				>
+				<div id="timer-div">
+					<Timer
+						time={30}
+						on:time-ended={() => {
+							testState.set(TestStates.Ended);
+						}}
+					></Timer>
+				</div>
 				<button
 					id="test-submit-button"
 					on:click={(e) => {
@@ -104,6 +106,10 @@
 		position: absolute;
 		text-align: center;
 		margin-block-start: 0;
+	}
+
+	#timer-div {
+		margin-top: 1rem;
 	}
 
 	#test-instructions,
@@ -204,7 +210,7 @@
 
 		cursor: pointer;
 
-		margin: 2rem 0 1rem 0;
+		margin: 1rem 0;
 		touch-action: manipulation;
 	}
 

@@ -141,12 +141,6 @@
 	</div>
 
 	<div slot="test">
-		<Timer
-			time={15}
-			on:time-ended={() => {
-				testState.set(TestStates.Ended);
-			}}
-		></Timer>
 		<p id="test-instructions">
 			Tap on the circles as they appear. Be as fast as possible. Do not miss any targets.
 		</p>
@@ -158,6 +152,12 @@
 				<canvas id="main-canvas" bind:this={mainCanvas} on:click={handleClick}
 					>Your browser doesn't support this feature.</canvas
 				>
+				<Timer
+					time={15}
+					on:time-ended={() => {
+						testState.set(TestStates.Ended);
+					}}
+				></Timer>
 			</div>
 		</div>
 	</div>

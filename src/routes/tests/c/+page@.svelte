@@ -108,12 +108,6 @@
 	</div>
 
 	<div slot="test">
-		<Timer
-			time={60}
-			on:time-ended={() => {
-				testState.set(TestStates.Ended);
-			}}
-		></Timer>
 		<p id="test-instructions">
 			Memorize the sequence and repeat it. Be as fast as possible. Do not input an incorrect
 			sequence.
@@ -136,6 +130,12 @@
 				<p id="sequence-state" style:color={isAcceptingInput ? '#485bcd' : '#7e7e7e'}>
 					{isAcceptingInput ? 'Input Sequence Now' : 'Displaying Sequence'}
 				</p>
+				<Timer
+					time={60}
+					on:time-ended={() => {
+						testState.set(TestStates.Ended);
+					}}
+				></Timer>
 				<button
 					id="test-submit-button"
 					on:click={() => {
