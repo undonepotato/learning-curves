@@ -217,7 +217,7 @@
 	}
 	#test-div {
 		flex: 1;
-		block-size: 50vh;
+		block-size: 60vh;
 
 		touch-action: manipulation;
 	}

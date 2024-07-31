@@ -158,7 +158,7 @@
 	}
 	#test-div {
 		flex: 1;
-		block-size: 50vh;
+		block-size: 60vh;
 
 		display: flex;
 		flex-direction: column;
