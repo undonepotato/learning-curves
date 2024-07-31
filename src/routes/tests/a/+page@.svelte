@@ -53,6 +53,7 @@
 			}
 		} else if (value == TestStates.Ended) {
 			cancelAnimationFrame(requestID);
+			historicalClicks.set(performance.now(), null);
 			localStorage.setItem('test-a-results', JSON.stringify(Object.fromEntries(historicalClicks)));
 		}
 	});

@@ -1,18 +1,25 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onDestroy } from 'svelte';
+	import { TestStates, testState } from './test-state';
 
 	const dispatcher = createEventDispatcher();
 
 	export let time: number;
 
-	let timer = setInterval(() => {
-		time--;
-	}, 1000);
+	const unsubscribe = testState.subscribe((value) => {
+		if (value == TestStates.Running) {
+			let timer = setInterval(() => {
+				time--;
+			}, 1000);
 
-	setTimeout(() => {
-		clearInterval(timer);
-		dispatcher('time-ended');
-	}, time * 1000);
+			setTimeout(() => {
+				clearInterval(timer);
+				dispatcher('time-ended');
+			}, time * 1000);
+		}
+	});
+
+	onDestroy(unsubscribe);
 </script>
 
 <svelte:head>

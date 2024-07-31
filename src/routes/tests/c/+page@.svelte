@@ -71,6 +71,7 @@
 		}
 
 		if (value == TestStates.Ended) {
+			historicalSequences.set(performance.now(), null);
 			localStorage.setItem(
 				'test-c-results',
 				JSON.stringify(Object.fromEntries(historicalSequences))

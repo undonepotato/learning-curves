@@ -30,6 +30,7 @@
 		}
 
 		if (value == TestStates.Ended) {
+			historicalEntries.set(performance.now(), null);
 			localStorage.setItem('test-b-results', JSON.stringify(Object.fromEntries(historicalEntries)));
 		}
 	});
